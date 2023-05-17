@@ -4,15 +4,14 @@ import speech_recognition
 from pydub import AudioSegment
 
 
-# Ниже нужно вставить токен, который дал BotFather при регистрации
-# Пример: token = '2007628239:AAEF4ZVqLiRKG7j49EC4vaRwXjJ6DN6xng8'
-token = '6111367753:AAFm2Yl1gOutoT1Jr60zFqsjotIuMJuUwaU'  # <<< Ваш токен
+
+token = ''  
 
 bot = telebot.TeleBot(token)
 
 
 def oga2wav(filename):
-    # Конвертация формата файлов
+    
     new_filename = filename.replace('.oga', '.wav')
     audio = AudioSegment.from_file(filename)
     audio.export(new_filename, format='wav')
@@ -20,7 +19,7 @@ def oga2wav(filename):
 
 
 def recognize_speech(oga_filename):
-    # Перевод голоса в текст + удаление использованных файлов
+    
     wav_filename = oga2wav(oga_filename)
     recognizer = speech_recognition.Recognizer()
 
@@ -39,7 +38,7 @@ def recognize_speech(oga_filename):
 
 
 def download_file(bot, file_id):
-    # Скачивание файла, который прислал пользователь
+    
     file_info = bot.get_file(file_id)
     downloaded_file = bot.download_file(file_info.file_path)
     filename = file_id + file_info.file_path
@@ -51,7 +50,7 @@ def download_file(bot, file_id):
 
 @bot.message_handler(commands=['start'])
 def say_hi(message):
-    # Функция, отправляющая "Привет" в ответ на команду /start
+   
     bot.send_message(message.chat.id, 'Привет, ' +message.chat.first_name +'! /start - перезапуск бота')
     sticker = open('/content/sticker1.webp', 'rb')
     bot.send_sticker(message.chat.id, sticker)
@@ -60,7 +59,7 @@ def say_hi(message):
 
 @bot.message_handler(content_types=['voice'])
 def transcript(message):
-    # Функция, отправляющая текст в ответ на голосовое
+    
     filename = download_file(bot, message.voice.file_id)
     text = recognize_speech(filename)
     bot.send_message(message.chat.id, text)
