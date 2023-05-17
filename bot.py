@@ -1,3 +1,4 @@
+#для начала установите библиотеки! !pip install pyTelegramBotAPI SpeechRecognition pydub
 import os
 import telebot
 import speech_recognition
@@ -5,7 +6,7 @@ from pydub import AudioSegment
 
 
 
-token = ''  
+token = ''  #здесь должен быть токен
 
 bot = telebot.TeleBot(token)
 
